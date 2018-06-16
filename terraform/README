@@ -1,0 +1,39 @@
+# I just want an RDS instance!
+
+This is about the minimum you need to get a database, somewhere on the internet.
+
+### Getting started
+
+    $ export AWS_REGION=eu-west-2
+    $ export AWS_ACCESS_KEY_ID=...
+    $ export AWS_SECRET_ACCESS_KEY=...
+
+(Or if you're me)
+
+    $ source <(pass aws.amazon.com/$account_id)
+
+    $ terraform init
+    $ terrafor apply
+
+### What is this?
+
+This directory contains just enough to bring up a new RDS instance on the
+public internet from a fresh AWS account.
+
+There are two terraform files here. They are named after the area of the AWS API
+that they concern.
+
+Obviously, you need a VPC. Everything is in a VPC these days.
+
+`vpc.tf` creates a VPC with two AZs (the minimum needed to make a sensible RDS
+deployment).
+
+The rest of the gunk in there is stuff like:
+- IPv4 and IPv6
+- NATs or egress routers
+- Routing tables to glue it to the internet
+
+`rds.tf` creates a database.
+Play with the parameters, go have fun.
+
+

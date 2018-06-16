@@ -1,0 +1,35 @@
+An experiment to test RDS's behaviour during upgrades
+
+
+1. Start an RDS instance
+2. Start an RDS replica
+
+3. Start pinging INSERTs into the database, once per second
+4. Follow them with a SELECT on the master and replica
+
+5. Click the upgrade button
+
+6. Analyse *everything*
+
+Questions: How does this change if a multi-AZ master is used?
+
+## Setting up
+
+    $ cd terraform
+    $ export aws credentials
+    $ terraform apply
+
+## Doing the test
+
+    $ pipenv shell
+    $ export DATABASE_URL = ... <-- From the terraform output, use the master
+
+    $ ./manage.py migrate
+    $ ./manage.py write_to_db
+
+In another shell
+    $ export DATABASE_URL = ... <-- From the terraform output, master or replica
+
+    $ ./manage.py read_from_db
+
+When ready, make a change to the database, e.g. change the instance class
